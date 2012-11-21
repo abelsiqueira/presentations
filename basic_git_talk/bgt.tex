@@ -10,7 +10,7 @@
 
 \documentclass[11pt]{beamer}
 % Utilizar apenas para a classe beamer
-\usetheme{CambridgeUS}
+\usepackage{abel-beamer}
 \let\Tiny=\tiny % Redefine at least \Tiny for avoid warning
 
 % Tipo de arquivo.
@@ -122,14 +122,15 @@ language=python,
 
 \begin{document}
 \title{Introdução ao Git}
-\author[Raniere Silva]{Raniere Gaia Costa da
-Silva\footnote{r.gaia.cs@gmail.com}}
+\author[R. G. C. Silva, A. S. Siqueira]{Raniere Gaia Costa da
+Silva\footnote{r.gaia.cs@gmail.com} \\
+Abel Soares Siqueira\footnote{abel.s.siqueira@gmail.com}}
 
-\begin{frame}
+\myframe{
     \maketitle
-\end{frame}
+}
 
-\begin{frame}
+\myframe{
     Esta apresentação é baseada na apresentação ``Intro to Git'' de Scott
     Chacon que encontra-se disponível em
     \url{https://github.com/schacon/git-presentations}.
@@ -137,7 +138,7 @@ Silva\footnote{r.gaia.cs@gmail.com}}
     \begin{block}{}
         Os arquivos desta apresentação encontram-se disponíveis \\
         em \url{https://github.com/r-gaia-cs/presentations}. \\
-        \vspace{-33pt}
+        \vspace{-40pt}
         \begin{flushright}
             \includegraphics[height=2cm]{../figures/forkme_right_red.png}
         \end{flushright}
@@ -147,59 +148,62 @@ Silva\footnote{r.gaia.cs@gmail.com}}
         Salvo indicado o contrário, esta apresentação está licenciada sob a licença
         Creative Commons Atribuição 3.0 Não Adaptada. Para ver uma cópia desta
         licença, visite http://creativecommons.org/licenses/by/3.0/.
-        \begin{center}
-            \includegraphics{../figures/cc-by-sa.png}
-        \end{center}
+        \hspace{20 pt}   \includegraphics[scale=0.5]{../figures/cc-by-sa.png}
     \end{block}
-\end{frame}
+}
 
-\begin{frame}
+\myframe{
     \tableofcontents
-\end{frame}
+}
 
-\section{O que é o Git?}
-\begin{frame}
+\makesection{O que é o Git?}
+\myframe{
     Git é um sistema de controle de versão distribuido livre
     desenvolvido\footnote{A primeira versão foi escrita por Linus Torvalds, o
     criador do Linux.} para
     ser rápido e eficiente.
-\end{frame}
-
-\begin{frame}{Quase tudo é local}
+}
+\makesubsection{Quase tudo é local}
+\myframe{
     O Git pode ser utilizado sem conexão de internet ou rede local:
     \begin{itemize}
         \item realizar um \textit{diff}, \pause
         \item visualizar o histórico de um arquivo, \pause
         \item criar uma nova versão (\textit{commit}), \pause
         \item retornar para uma versão anterior, \pause
-        \item mudar de ramo (\textit{merge}), \pause
+        \item mudar de ramo (\textit{branch}), \pause
         \item juntar ramos (\textit{merge}). \pause
     \end{itemize}
 
     Por este motivo, ele é rápido.
-\end{frame}
-
-\begin{frame}[fragile]{Git é rápido}
-    \begin{lstlisting}
-git --version
+}
+\makesubsection{Git é rápido}
+\begin{frame}[fragile]
+\frametitle{\mytitle}
+\begin{lstlisting}
+$ git --version
 git version 1.7.9.5
-git clone https://github.com/joyent/node.git -q
-du -sh node
+$ git clone https://github.com/joyent/node.git -q
+$ du -sh node
 160M    node
-cd node; time -p git checkout -b newbranch
+$ cd node; time -p git checkout -b newbranch
 Switched to a new branch 'newbranch'
 real 0.27
 user 0.22
 sys 0.04
-time -p cp -Rf node node2
+$ time -p cp -Rf node node2
 real 0.37
 user 0.00
 sys 0.36
-    \end{lstlisting}
+\end{lstlisting}
 \end{frame}
 
-\section{Work flow}
-\begin{frame}[fragile]{Configuração}
+\makesection{Work flow}
+
+\makesubsection{Configuração}
+
+\begin{frame}[fragile]
+\frametitle{\mytitle}
     \begin{lstlisting}
 $ git config --global user.name "Raniere Silva"
 $ git config --global user.email "r.gaia.cs@gmail.com"
@@ -214,19 +218,21 @@ $ git config --global user.email "r.gaia.cs@gmail.com"
     \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Criando um repositório}
+\makesubsection{Criando um repositório}
+
+\begin{frame}[fragile]
+\frametitle{\mytitle}
     \begin{lstlisting}
-git --version
-git version 1.7.9.5
-mkdir meu_projeto
-cd meu_projeto; git init
+$ mkdir meu_projeto
+$ cd meu_projeto; git init
 Initialized empty Git repository in /home/raniere/documents/presentations/basic_git_talk/src/meu_projeto/.git/
     \end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
-    \begin{lstlisting}
-cd meu_projeto; tree -a
+\frametitle{\mytitle}
+    \begin{lstlisting}[basicstyle=\tiny]
+$ cd meu_projeto; tree -a
 .
 +-- .git
     +-- branches
@@ -255,11 +261,12 @@ cd meu_projeto; tree -a
     \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]{Clonando um repositório}
+\makesubsection{Clonando um repositório}
+
+\begin{frame}[fragile]
+\frametitle{\mytitle}
     \begin{lstlisting}
-git --version
-git version 1.7.9.5
-git clone https://github.com/abelsiqueira/tutoriais.git
+$ git clone https://github.com/abelsiqueira/tutoriais.git
 Cloning into 'tutoriais'...
 remote: Counting objects: 207, done.
 remote: Compressing objects: 100% (135/135), done.
@@ -269,14 +276,27 @@ Receiving objects:  46% (96/207), 348.00 KiB | 202 KiB/s, done.
 Resolving deltas: 100% (82/82), done.
     \end{lstlisting}
 \end{frame}
-\section*{Obrigado}
-\begin{frame}
+
+\makesubsection{Fluxo de trabalho}
+
+\myframe{
+ \begin{itemize}
+  \item<1-> Edição dos arquivos
+  \item<2-> Organizar (stage) as mudanças
+  \item<3-> Revisar as mudanças
+  \item<4-> Enviar (commit) as mudanças
+ \end{itemize}
+}
+
+\myframe{
     \begin{center}
         Obrigado!
     \end{center}
     \begin{center}
-        \url{r.gaia.cs@gmail.com}
+        \url{r.gaia.cs@gmail.com} \\
+        \url{abel.s.siqueira@gmail.com}
     \end{center}
-\end{frame}
+}
+
 
 \end{document}
